@@ -1,0 +1,105 @@
+.body .table .state, .body .sider__menu {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+header {
+  color: white;
+  background-color: black;
+  font-size: 30px;
+  font-weight: bold;
+  padding: 5px;
+  padding-left: 50px;
+  width: 100%;
+  height: 70px;
+  position: fixed;
+  top: 0px;
+}
+
+.body {
+  display: flex;
+  margin-top: 70px;
+  width: 100%;
+}
+.body .sider {
+  background-color: black;
+  opacity: 70%;
+  color: white;
+  width: 200px;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  position: fixed;
+  top: 70px;
+}
+.body .sider__menu {
+  padding-top: 50px;
+  height: max-content;
+}
+.body .sider__menu ul {
+  list-style-type: none;
+  padding: 0;
+}
+.body .sider__menu ul li {
+  margin-bottom: 20px;
+}
+.body .sider__menu ul li a {
+  text-decoration: none;
+  color: white;
+  font-size: 20px;
+  font-weight: 400;
+}
+.body .sider__menu ul li a:hover {
+  cursor: pointer;
+}
+.body .main {
+  width: 100%;
+  margin-left: 200px;
+  padding: 50px;
+}
+.body .card-header {
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+.body .combo--button {
+  margin-bottom: 20px;
+  width: 100%;
+}
+.body .combo--button .row {
+  width: 100%;
+}
+.body .combo--button .button {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+.body .table {
+  margin-top: 20px;
+}
+.body .table .state {
+  color: white;
+  text-decoration: none;
+  padding: 2px;
+  width: max-content;
+  border-radius: 5px;
+  font-weight: bold;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+.body .table .state--stop {
+  background-color: rgb(218, 61, 61);
+}
+.body .table .state--active {
+  background-color: rgb(0, 152, 0);
+}
+.body .table .state--tem {
+  background-color: rgb(207, 195, 32);
+}
+.body .table .combo {
+  display: flex;
+  gap: 10px;
+}
+
+/*# sourceMappingURL=style.css.map */

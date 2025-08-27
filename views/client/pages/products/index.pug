@@ -1,0 +1,21 @@
+extends ../../layouts/default.pug 
+include ../../mixins/box-head.pug
+
+block main 
+    +box-head("Danh sách sản phẩm")
+
+    .row.productPage 
+        each item in products
+            .col-3.g-4
+                .item
+                    .item__img
+                        img(
+                            src=item.thumbnail
+                            alt=item.title    
+                        )
+                    .item__oldPrice $#{item.oldPrice}
+                    .item__price $#{item.price}
+                    .item__discount #{item.discountPercentage}%
+                    .item__name #{item.title}
+                    .item__more More
+                    .item__buy Buy now
