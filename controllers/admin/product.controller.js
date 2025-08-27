@@ -2,7 +2,7 @@ const Product = require("../../models/product.model")
 const filterStatusHelper = require("../../helpers/filterStatus")
 const searchHelper = require("../../helpers/search")
 const paginationHelper = require("../../helpers/pagination")
-
+const dateFormat = require("../../helpers/dateFormat")
 // [GET] /admin/products
 
 module.exports.index= async (req, res) => {
@@ -68,6 +68,12 @@ module.exports.changeMulti = async (req, res) => {
         case "inactive":
             await Product.updateMany({_id: { $in: ids}}, {status: "inactive"})
             break;
+        case "delete-all":
+            await Product.updateMany({_id: { $in: ids}}, {
+                deleted: true,
+                deleteDate: dateFormat.formatted
+            })
+            break;
         default:
             break;
     }
@@ -81,22 +87,11 @@ module.exports.changeMulti = async (req, res) => {
 module.exports.deleteItem = async (req, res) => {
     const id = req.params.id
 
-    //xử lý ngày cho đẹp format
-    const now = new Date();
-
-    const hours = String(now.getHours()).padStart(2, "0");
-    const minutes = String(now.getMinutes()).padStart(2, "0");
-    const seconds = String(now.getSeconds()).padStart(2, "0");
-
-    const day = String(now.getDate()).padStart(2, "0");
-    const month = String(now.getMonth() + 1).padStart(2, "0"); 
-    const year = now.getFullYear();
-
-    const formatted = `${hours}:${minutes}:${seconds} ${day}/${month}/${year}`;
+    
 
     await Product.updateOne({_id: id}, {
         deleted: true,
-        deleteDate: formatted
+        deleteDate: dateFormat.formatted
     })
     
     const backURL = req.get('Referer') || '/admin/products'; 
