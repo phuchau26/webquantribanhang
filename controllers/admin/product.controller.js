@@ -2,7 +2,7 @@ const Product = require("../../models/product.model")
 const filterStatusHelper = require("../../helpers/filterStatus")
 const searchHelper = require("../../helpers/search")
 const paginationHelper = require("../../helpers/pagination")
-const dateFormat = require("../../helpers/dateFormat")
+const dateHelper = require("../../helpers/dateFormat")
 // [GET] /admin/products
 
 module.exports.index= async (req, res) => {
@@ -75,10 +75,10 @@ module.exports.changeMulti = async (req, res) => {
         case "delete-all":
             await Product.updateMany({_id: { $in: ids}}, {
                 deleted: true,
-                deleteDate: dateFormat.formatted
+                deleteDate: dateHelper()
             })
 
-            req.flash("success", `Xóa thành công của ${ids.length} sản phẩm!`)
+            req.flash("success", `Xóa thành công ${ids.length} sản phẩm!`)
 
             break;
         case "change-position":
@@ -107,9 +107,40 @@ module.exports.deleteItem = async (req, res) => {
 
     await Product.updateOne({_id: id}, {
         deleted: true,
-        deleteDate: dateFormat.formatted
+        deleteDate: dateHelper()
     })
+
+    req.flash("success", `Xóa thành công sản phẩm!`)
     
     const backURL = req.get('Referer') || '/admin/products'; 
+    res.redirect(backURL);
+}
+
+
+// [GET] /admin/products/create
+module.exports.create= async (req, res) => {
+   res.render("admin/pages/product/create", {
+        pageTitle: "Thêm mới sản phẩm"
+   })
+}
+
+// [POST] /admin/products/create
+module.exports.createPost= async (req, res) => {
+   req.body.price = parseInt(req.body.price)
+   req.body.discountPercentage = parseFloat(req.body.discountPercentage)
+   req.body.stock = parseInt(req.body.stock)
+
+   if(req.body.position == ""){
+    const countProducts = await Product.countDocuments()
+
+    req.body.position = countProducts + 1
+   }else{
+        req.body.position = parseInt(req.body.position)
+   }
+
+    const product = new Product(req.body)
+    await product.save()
+
+    const backURL = req.get('Referer') || '/admin/products/create'; 
     res.redirect(backURL);
 }

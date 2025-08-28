@@ -2,8 +2,17 @@ extends ../../layouts/default.pug
 include ../../mixins/filterStatus.pug
 include ../../mixins/search.pug
 include ../../mixins/pagination.pug
-include ../../mixins/form-change-multi.pug
-block main 
+include ../../mixins/form-bin.pug
+
+block main
+    -if (messages.success)
+        .message.info
+            div(
+                class="alert alert-success"
+                show-alert
+                data-time="5000"
+            ) #{messages.success}
+
     h1 Danh sách sản phẩm
 
     .card.mb-3
@@ -13,13 +22,13 @@ block main
             .col-6.button
                 +filter-status(filterStatus)
 
-            .col-6
+            .col-3
                 
                 +search(keyword)
 
     .card.mb-3
     .card-body
-        +form-change-multi(`${prefixAdmin}/products/change-multi?_method=PATCH`)
+        +form-bin()
         
         table(
             class = " table table-hover table-sm" 

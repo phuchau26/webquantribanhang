@@ -169,3 +169,47 @@ if (showAlert) {
 }
 
 //end show alert
+
+
+
+//form bin
+
+const formBin = document.querySelector("[form-bin]");
+
+if (formBin) {
+  formBin.addEventListener("submit", (e) => {
+    e.preventDefault();
+
+    const checkboxMulti = document.querySelector("[checkbox-multi]");
+    const inputChecked = checkboxMulti.querySelectorAll(
+      "input[name='id']:checked"
+    );
+
+    const typeChange = e.target.elements.type.value;
+    if (typeChange == "delete-all") {
+      const isConfirm = confirm("Mày có chắc muốn xóa VĨNH VIỄN không?");
+
+      if (!isConfirm) {
+        return;
+      }
+    }
+
+    if (inputChecked.length > 0) {
+      let ids = [];
+
+      const inputIds = formBin.querySelector("input[name='ids']");
+
+      inputChecked.forEach((input) => {
+        const id = input.value;
+        ids.push(id);
+      });
+
+      inputIds.value = ids.join(",");
+
+      formBin.submit();
+    } else {
+      alert("Please choose at least one product!");
+    }
+  });
+}
+//end form bin

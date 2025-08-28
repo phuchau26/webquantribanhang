@@ -51,28 +51,7 @@ module.exports.changeStatus = async (req, res) => {
 
     await Product.updateOne({_id: id}, {status: status})
     
-    const backURL = req.get('Referer') || '/admin/products'; 
-    res.redirect(backURL);
-}
-
-//[PATCH] /admin/products/change-multi
-
-module.exports.changeMulti = async (req, res) => {
-    const type = req.body.type
-    const ids = req.body.ids.split(",")
-
-    switch (type){
-        case "active":
-            await Product.updateMany({_id: { $in: ids}}, {status: "active"})
-            break;
-        case "inactive":
-            await Product.updateMany({_id: { $in: ids}}, {status: "inactive"})
-            break;
-        default:
-            break;
-    }
-
-    const backURL = req.get('Referer') || '/admin/products'; 
+    const backURL = req.get('Referer') || '/admin/bin'; 
     res.redirect(backURL);
 }
 
@@ -85,7 +64,10 @@ module.exports.restoreItem = async (req, res) => {
         deleted: false
     })
     
-    const backURL = req.get('Referer') || '/admin/products'; 
+    const backURL = req.get('Referer') || '/admin/bin'; 
+
+    req.flash("success", `Khôi phục thành công sản phẩm!`)
+
     res.redirect(backURL);
 }
 
@@ -96,6 +78,34 @@ module.exports.deleteItem = async (req, res) => {
 
     await Product.deleteOne({_id: id})
     
-    const backURL = req.get('Referer') || '/admin/products'; 
+    const backURL = req.get('Referer') || '/admin/bin'; 
+
+    req.flash("success", `Xóa VĨNH VIỄN thành công sản phẩm!`)
+
+    res.redirect(backURL);
+}
+
+
+
+module.exports.changeMulti = async (req, res) => {
+    const type = req.body.type
+    const ids = req.body.ids.split(",")
+
+    switch (type){
+        case "delete-all":
+            await Product.deleteMany({_id: { $in: ids}})
+
+            req.flash("success", `Xóa VĨNH VIỄN thành công ${ids.length} sản phẩm!`)
+
+            break;
+        case "restore-all":
+            await Product.updateMany({_id: { $in: ids}}, {deleted: false})
+            req.flash("success", `Khôi phục thành công ${ids.length} sản phẩm!`)
+            break;
+        default:
+            break;
+    }
+
+    const backURL = req.get('Referer') || '/admin/bin'; 
     res.redirect(backURL);
 }
