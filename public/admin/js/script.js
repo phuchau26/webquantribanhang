@@ -213,3 +213,33 @@ if (formBin) {
   });
 }
 //end form bin
+
+//upload image
+const uploadImage = document.querySelector("[upload-image]");
+if (uploadImage) {
+  const uploadImageInput = document.querySelector("[upload-image-input]");
+  const uploadImagePreview = document.querySelector("[upload-image-preview]");
+  const imgPreviewWrapper = document.querySelector(".img-preview");
+  const closeBtn = document.querySelector(".close-btn");
+
+  // khi chọn ảnh
+  uploadImageInput.addEventListener("change", (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      uploadImagePreview.src = URL.createObjectURL(file);
+      imgPreviewWrapper.style.display = "block";
+    } else {
+      uploadImagePreview.src = "";
+      imgPreviewWrapper.style.display = "none";
+    }
+  });
+
+  // khi bấm nút X
+  closeBtn.addEventListener("click", () => {
+    uploadImagePreview.src = "";
+    uploadImageInput.value = ""; // xoá file khỏi input
+    imgPreviewWrapper.style.display = "none";
+  });
+}
+
+//end upload image

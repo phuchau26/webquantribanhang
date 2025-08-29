@@ -97,7 +97,11 @@ block main
                         
                         td
                             .combo
-                                button(class="state state--tem") Sửa
+                                a(
+                                    href=`${prefixAdmin}/products/edit/${item._id}`
+                                    class="state state--tem"
+                                    
+                                ) Sửa
                                 button(
                                     class="state state--stop"
                                     button-delete

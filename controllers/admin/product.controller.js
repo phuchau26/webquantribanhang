@@ -126,6 +126,13 @@ module.exports.create= async (req, res) => {
 
 // [POST] /admin/products/create
 module.exports.createPost= async (req, res) => {
+
+    if (!req.body.title){
+        req.flash("error", "Vui lòng nhập tiêu đề!")
+        res.redirect('/admin/products/create')
+        return;
+    }
+
    req.body.price = parseInt(req.body.price)
    req.body.discountPercentage = parseFloat(req.body.discountPercentage)
    req.body.stock = parseInt(req.body.stock)
@@ -145,4 +152,56 @@ module.exports.createPost= async (req, res) => {
 
     const backURL = req.get('Referer') || '/admin/products/create'; 
     res.redirect(backURL);
+}
+
+// [GET] /admin/products/edit/:id
+module.exports.edit= async (req, res) => {
+    try{
+        const find = {
+            deleted: false,
+            _id: req.params.id
+        }
+
+        const product = await Product.findOne(find)
+
+        res.render("admin/pages/product/edit", {
+                pageTitle: "Chỉnh sửa sản phẩm",
+                product: product
+        })
+    } catch(error){
+        const backURL = req.get('Referer') || '/admin/products'; 
+        res.redirect(backURL);
+    }
+    
+}
+
+
+
+// [PATCH] /admin/products/edit/:id
+module.exports.editPatch= async (req, res) => {
+    req.body.price = parseInt(req.body.price)
+    req.body.discountPercentage = parseFloat(req.body.discountPercentage)
+    req.body.stock = parseInt(req.body.stock)
+    req.body.position = parseInt(req.body.position)
+
+    if (req.file){
+        req.body.thumbnail = `/uploads/${req.file.filename}`
+    }
+
+    try{
+        await Product.updateOne(
+            {
+                _id: req.params.id
+            }, req.body
+        )
+
+        req.flash("success", "Đã cập nhật sản phẩm thành công!")
+    }catch (error){
+        req.flash("error", "Cập nhật sản phẩm thất bại!")
+    }
+
+    const backURL = '/admin/products'; 
+    res.redirect(backURL);
+
+
 }
