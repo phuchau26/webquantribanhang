@@ -16,6 +16,7 @@ block main
                     .item__oldPrice $#{item.oldPrice}
                     .item__price $#{item.price}
                     .item__discount #{item.discountPercentage}%
-                    .item__name #{item.title}
+                    .item__name 
+                        a(href=`/products/${item.slug}`) #{item.title}
                     .item__more More
                     .item__buy Buy now

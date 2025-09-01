@@ -16,3 +16,29 @@ module.exports.index = async (req, res) => {
         products: products
     })
 }
+
+// [GET] /products/:slug
+module.exports.detail = async (req, res) => {
+
+    try{
+
+        //Do có một số sản phẩm đầu chưa có slug nên sẽ lỗi. 
+        //Vì vậy sẽ có lỗi nếu sp không có slug
+        console.log(req.params.slug)
+        var find = {
+            deleted: false,
+            slug: req.params.slug,
+            status: "active"
+        }
+    
+        const product = await Product.findOne(find)
+
+        res.render("client/pages/products/detail", {
+                pageTitle: "Chi tiết sản phẩm",
+                product: product
+            })
+        }catch(error){
+            res.redirect("/products")
+        }
+}
+    

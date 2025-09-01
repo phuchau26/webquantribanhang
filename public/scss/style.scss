@@ -158,10 +158,12 @@ body {
       margin-left: 10px;
     }
 
-    &__name {
-      font-size: 18px;
+    &__name a{
+      font-size: 20px;
       margin-left: 10px;
       font-weight: 500;
+      text-decoration: none;
+      color: #404349;
     }
 
     &__more {
