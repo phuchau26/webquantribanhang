@@ -40,4 +40,3 @@ routerAdmin(app)
 app.listen(port, () => {
   console.log(`Da chay tren cong: ${port}`);
 });
-
