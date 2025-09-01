@@ -21,7 +21,7 @@ const port = process.env.PORT;
 app.use(methodOverride("_method"))
 app.use(bodyParser.urlencoded({extended: false}))
 
-app.set("views", "./views")
+app.set("views", `${__dirname}/views`)
 app.set("view engine", "pug")
 
 //Flash 
@@ -32,7 +32,7 @@ app.use(flash())
 //App local variables
 app.locals.prefixAdmin = systemConfig.prefixAdmin
 
-app.use(express.static("public"))
+app.use(express.static(`${__dirname}/public`))
 
 router(app)
 routerAdmin(app)
